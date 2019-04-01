@@ -24,7 +24,7 @@ public class BibliotecaTest {
     }
 
     @After
-    public void revertStreams() {
+    public void revertSystemStreams() {
         System.setIn(systemIn);
         System.setOut(systemOut);
         output.reset();
@@ -53,32 +53,44 @@ public class BibliotecaTest {
     }
 
     @Test
-    public void booksShouldBeListedAfterWelcomeMessage() throws IOException {
-        String[] expectedBookList = { "A Game of Thrones", "Nineteen Eighty-Four", "The Metamorphosis" };
+    public void booksShouldBeListedWhenOptionSelected() throws IOException {
+        String[] expectedBookTitles = {"A Game of Thrones", "Nineteen Eighty-Four", "The Metamorphosis",
+                "Wuthering Heights"};
         String input = "1\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
 
         String outputStr = output.toString();
-        for (int i = 0; i < 3; i++) {
-            assertThat(outputStr, containsString(expectedBookList[i]));
+        for (int i = 0; i < 4; i++) {
+            assertThat(outputStr, containsString(expectedBookTitles[i]));
         }
     }
 
     @Test
-    public void authorAndPublicationYearShouldBeListed() throws IOException {
-        String[] expectedPubYears = { "1996", "1949", "1915" };
-        String[] expectedAuthors = { "George R. R. Martin", "George Orwell", "Franz Kafka" };
+    public void authorAndPublicationYearShouldBeListedWithBooks() throws IOException {
+        String[] expectedPubYears = {"1996", "1949", "1915", "1847"};
+        String[] expectedAuthors = {"George R. R. Martin", "George Orwell", "Franz Kafka", "Emily Brontë"};
         String input = "1\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
 
         String outputStr = output.toString();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             assertThat(outputStr, containsString(expectedPubYears[i]));
             assertThat(outputStr, containsString(expectedAuthors[i]));
         }
+    }
+
+    @Test
+    public void invalidOptionMessageShouldDisplay() throws IOException {
+        String expectedMessage = "Please select a valid option!";
+        String input = "😂\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        assertThat(output.toString(), containsString(expectedMessage));
     }
 }
