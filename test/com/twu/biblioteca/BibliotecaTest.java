@@ -38,7 +38,22 @@ public class BibliotecaTest {
     @Test
     public void booksShouldBeListedAfterWelcomeMessage() {
         BibliotecaApp.main(null);
-        String expectedBookList = "A Game of Thrones\nNineteen Eighty-Four\nThe Metamorphosis\n";
-        assertThat(actualOut.toString(), containsString(expectedBookList));
+        String[] expectedBookList = { "A Game of Thrones", "Nineteen Eighty-Four", "The Metamorphosis" };
+        String actualOutStr = actualOut.toString();
+        for (int i = 0; i < 3; i++) {
+            assertThat(actualOutStr, containsString(expectedBookList[i]));
+        }
+    }
+
+    @Test
+    public void authorAndPublicationYearShouldBeListed() {
+        String[] expectedPubYears = { "1996", "1949", "1915" };
+        String[] expectedAuthors = { "George R. R. Martin", "George Orwell", "Franz Kafka" };
+        BibliotecaApp.main(null);
+        String actualOutStr = actualOut.toString();
+        for (int i = 0; i < 3; i++) {
+            assertThat(actualOutStr, containsString(expectedPubYears[i]));
+            assertThat(actualOutStr, containsString(expectedAuthors[i]));
+        }
     }
 }
