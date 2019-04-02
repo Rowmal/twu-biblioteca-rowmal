@@ -48,7 +48,10 @@ public class BibliotecaApp {
                 case "4":
                     String returnTitle = br.readLine();
                     Book returned = findBook(returnTitle);
-                    if (returned != null) returned.setCheckedOut(false);
+                    if (returned != null) {
+                        returned.setCheckedOut(false);
+                        System.out.println("Thank you for returning the book");
+                    }
                     break;
                 default:
                     System.out.println("Please select a valid option!");

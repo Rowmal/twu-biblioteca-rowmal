@@ -157,6 +157,18 @@ public class BibliotecaTest {
     }
 
     @Test
+    public void successMessageShouldDisplayWhenBookReturned() throws IOException {
+        String checkout = "A Game of Thrones";
+        String input = "3\n" + checkout + "\n" + "4\n" + checkout + "\n";
+        String expectedMessage = "Thank you for returning the book";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        assertThat(output.toString(), containsString(expectedMessage));
+    }
+
+    @Test
     public void returnedBooksShouldBeListed() throws IOException {
         String checkout = "A Game of Thrones";
         String input = "3\n" + checkout + "\n" + "4\n" + checkout + "\n" + "1\n";
