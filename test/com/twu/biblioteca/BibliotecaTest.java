@@ -8,8 +8,7 @@ import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
 import java.io.*;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.startsWith;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 // TODO: Utilise System Rules' System.out and System.in rules
@@ -108,5 +107,16 @@ public class BibliotecaTest {
         exit.expectSystemExitWithStatus(0);
 
         BibliotecaApp.main(null);
+    }
+
+    @Test
+    public void checkedOutBooksShouldNotDisplay() throws IOException {
+        String checkedOut = "A Game of Thrones";
+        String input = "3\n" + checkedOut + "\n" + "1\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        assertThat(output.toString(), not(containsString(checkedOut)));
     }
 }
