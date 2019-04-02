@@ -36,7 +36,7 @@ public class BibliotecaTest {
     }
 
     @Test
-    public void welcomeMessageShouldDisplayWhenApplicationStarts() throws IOException {
+    public void welcomeMessageShouldDisplayWhenBibliotecaStarts() throws IOException {
         String expectedWelcome = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!\n";
         String input = "1\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
@@ -101,7 +101,7 @@ public class BibliotecaTest {
     }
 
     @Test
-    public void applicationShouldQuitWhenOptionSelected() throws IOException {
+    public void bibliotecaShouldQuitWhenOptionSelected() throws IOException {
         String input = "2\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         exit.expectSystemExitWithStatus(0);
@@ -111,9 +111,33 @@ public class BibliotecaTest {
 
     @Test
     public void successMessageShouldDisplayWhenBookCheckedOut() throws IOException {
-        String checkedOut = "A Game of Thrones";
+        String checkout = "A Game of Thrones";
         String expectedMessage = "Thank you! Enjoy the book";
-        String input = "3\n" + checkedOut + "\n";
+        String input = "3\n" + checkout + "\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        assertThat(output.toString(), containsString(expectedMessage));
+    }
+
+    @Test
+    public void unavailableMessageShouldDisplayWhenBookNotInBiblioteca() throws IOException {
+        String unavailableBook = "The Wind in the Willows";
+        String expectedMessage = "Sorry, that book is not available";
+        String input = "3\n" + unavailableBook + "\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        assertThat(output.toString(), containsString(expectedMessage));
+    }
+
+    @Test
+    public void unavailableMessageShouldDisplayWhenBookAlreadyCheckedOut() throws IOException {
+        String checkout = "A Game of Thrones";
+        String expectedMessage = "Sorry, that book is not available";
+        String input = "3\n" + checkout + "\n" + "3\n" + checkout + "\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
@@ -123,12 +147,12 @@ public class BibliotecaTest {
 
     @Test
     public void checkedOutBooksShouldNotDisplay() throws IOException {
-        String checkedOut = "A Game of Thrones";
-        String input = "3\n" + checkedOut + "\n" + "1\n";
+        String checkout = "A Game of Thrones";
+        String input = "3\n" + checkout + "\n" + "1\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
 
-        assertThat(output.toString(), not(containsString(checkedOut)));
+        assertThat(output.toString(), not(containsString(checkout)));
     }
 }
