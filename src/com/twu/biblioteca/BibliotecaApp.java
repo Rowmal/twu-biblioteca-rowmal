@@ -37,7 +37,11 @@ public class BibliotecaApp {
                     break commandLoop;
                 case "3":
                     String checkoutTitle = br.readLine();
-                    for (Book book : books) if (book.getTitle().equals(checkoutTitle)) book.setCheckedOut();
+                    for (Book book : books)
+                        if (book.getTitle().equals(checkoutTitle)) {
+                            book.setCheckedOut();
+                            System.out.println("Thank you! Enjoy the book");
+                        }
                     break;
                 default:
                     System.out.println("Please select a valid option!");

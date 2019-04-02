@@ -110,6 +110,18 @@ public class BibliotecaTest {
     }
 
     @Test
+    public void successMessageShouldDisplayWhenBookCheckedOut() throws IOException {
+        String checkedOut = "A Game of Thrones";
+        String expectedMessage = "Thank you! Enjoy the book";
+        String input = "3\n" + checkedOut + "\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        assertThat(output.toString(), containsString(expectedMessage));
+    }
+
+    @Test
     public void checkedOutBooksShouldNotDisplay() throws IOException {
         String checkedOut = "A Game of Thrones";
         String input = "3\n" + checkedOut + "\n" + "1\n";
