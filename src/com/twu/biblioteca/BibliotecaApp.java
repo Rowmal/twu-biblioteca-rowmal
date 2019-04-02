@@ -18,13 +18,13 @@ public class BibliotecaApp {
             books[i] = new Book(bookTitles[i], authors[i], pubYears[i]);
 
         System.out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
-        String[] menuOptions = {"[1] List of books", "[2] Quit", "[3] Checkout book"};
+        String[] menuOptions = {"[1] List of books", "[2] Quit", "[3] Checkout book", "[4] Return a book"};
         for (String menuOption : menuOptions) System.out.println(menuOption);
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String str;
 
-        commandLoop:
+        menuOptionLoop:
         while ((str = br.readLine()) != null) {
             switch (str) {
                 case "1":
@@ -34,18 +34,21 @@ public class BibliotecaApp {
                                     book.getPubYear());
                     break;
                 case "2":
-                    break commandLoop;
+                    break menuOptionLoop;
                 case "3":
                     String checkoutTitle = br.readLine();
-                    Book checkout = null;
-                    for (Book book : books)
-                        if (book.getTitle().equals(checkoutTitle) && !book.isCheckedOut()) {
-                            checkout = book;
-                            checkout.setCheckedOut();
-                            System.out.println("Thank you! Enjoy the book");
-                            break;
-                        }
-                    if (checkout == null) System.out.println("Sorry, that book is not available");
+                    Book checkout = findBook(checkoutTitle);
+                    if (checkout == null || checkout.isCheckedOut())
+                        System.out.println("Sorry, that book is not available");
+                    else {
+                        checkout.setCheckedOut(true);
+                        System.out.println("Thank you! Enjoy the book");
+                    }
+                    break;
+                case "4":
+                    String returnTitle = br.readLine();
+                    Book returned = findBook(returnTitle);
+                    if (returned != null) returned.setCheckedOut(false);
                     break;
                 default:
                     System.out.println("Please select a valid option!");
@@ -55,5 +58,12 @@ public class BibliotecaApp {
 
         br.close();
         if (str != null) System.exit(0);
+    }
+
+    private static Book findBook(String title) {
+        for (Book book : books)
+            if (book.getTitle().equals(title))
+                return book;
+        return null;
     }
 }

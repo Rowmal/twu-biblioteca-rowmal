@@ -17,8 +17,8 @@ class Book {
         return checkedOut;
     }
 
-    void setCheckedOut() {
-        this.checkedOut = true;
+    void setCheckedOut(boolean checkedOut) {
+        this.checkedOut = checkedOut;
     }
 
     String getPubYear() {

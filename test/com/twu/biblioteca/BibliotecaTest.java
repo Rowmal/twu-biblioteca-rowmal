@@ -146,7 +146,7 @@ public class BibliotecaTest {
     }
 
     @Test
-    public void checkedOutBooksShouldNotDisplay() throws IOException {
+    public void checkedOutBooksShouldNotBeListed() throws IOException {
         String checkout = "A Game of Thrones";
         String input = "3\n" + checkout + "\n" + "1\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
@@ -154,5 +154,16 @@ public class BibliotecaTest {
         BibliotecaApp.main(null);
 
         assertThat(output.toString(), not(containsString(checkout)));
+    }
+
+    @Test
+    public void returnedBooksShouldBeListed() throws IOException {
+        String checkout = "A Game of Thrones";
+        String input = "3\n" + checkout + "\n" + "4\n" + checkout + "\n" + "1\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        assertThat(output.toString(), containsString(checkout));
     }
 }
