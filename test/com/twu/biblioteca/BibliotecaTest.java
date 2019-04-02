@@ -1,20 +1,26 @@
 package com.twu.biblioteca;
 
-import org.junit.Before;
 import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
 import java.io.*;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.startsWith;
+import static org.junit.Assert.assertThat;
 
+// TODO: Utilise System Rules' System.out and System.in rules
 public class BibliotecaTest {
 
     private InputStream systemIn;
     private PrintStream systemOut;
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+    @Rule
+    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
     @Before
     public void mockSystemStreams() {
@@ -43,13 +49,14 @@ public class BibliotecaTest {
 
     @Test
     public void mainMenuShouldDisplayAfterWelcomeMessage() throws IOException {
-        String expectedMainMenu = "[1] List of books\n";
+        String[] expectedMenuOptions = {"[1] List of books", "[2] Quit"};
         String input = "1\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
 
-        assertThat(output.toString(), containsString(expectedMainMenu));
+        for (String expectedMenuOption : expectedMenuOptions)
+            assertThat(output.toString(), containsString(expectedMenuOption));
     }
 
     @Test
@@ -92,5 +99,14 @@ public class BibliotecaTest {
         BibliotecaApp.main(null);
 
         assertThat(output.toString(), containsString(expectedMessage));
+    }
+
+    @Test
+    public void applicationShouldQuitWhenOptionSelected() throws IOException {
+        String input = "2\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        exit.expectSystemExitWithStatus(0);
+
+        BibliotecaApp.main(null);
     }
 }

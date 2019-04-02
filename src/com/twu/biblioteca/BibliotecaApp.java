@@ -13,7 +13,8 @@ public class BibliotecaApp {
         String[] authors = {"George R. R. Martin", "George Orwell", "Franz Kafka", "Emily Brontë"};
 
         System.out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
-        System.out.println("[1] List of books");
+        String[] menuOptions = {"[1] List of books", "[2] Quit"};
+        for (String menuOption : menuOptions) System.out.println(menuOption);
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String str;
@@ -21,8 +22,10 @@ public class BibliotecaApp {
             if (str.equals("1")) {
                 for (int i = 0; i < 4; i++)
                     System.out.printf("%-30s|%-30s|%-4.4s%n", bookTitles[i], authors[i], pubYears[i]);
-            } else System.out.println("Please select a valid option!");
+            } else if (str.equals("2")) break;
+            else System.out.println("Please select a valid option!");
         }
         br.close();
+        if (str != null) System.exit(0);
     }
 }
