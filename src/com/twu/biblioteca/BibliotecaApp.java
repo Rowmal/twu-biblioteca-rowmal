@@ -13,12 +13,11 @@ public class BibliotecaApp {
         String[] bookTitles = {"A Game of Thrones", "Nineteen Eighty-Four", "The Metamorphosis", "Wuthering Heights"};
         String[] pubYears = {"1996", "1949", "1915", "1847"};
         String[] authors = {"George R. R. Martin", "George Orwell", "Franz Kafka", "Emily Brontë"};
-
+        String[] menuOptions = {"[1] List of books", "[2] Quit", "[3] Checkout book", "[4] Return a book"};
         for (int i = 0; i < 4; i++)
             books[i] = new Book(bookTitles[i], authors[i], pubYears[i]);
 
         System.out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
-        String[] menuOptions = {"[1] List of books", "[2] Quit", "[3] Checkout book", "[4] Return a book"};
         for (String menuOption : menuOptions) System.out.println(menuOption);
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -48,7 +47,9 @@ public class BibliotecaApp {
                 case "4":
                     String returnTitle = br.readLine();
                     Book returned = findBook(returnTitle);
-                    if (returned != null) {
+                    if (returned == null || !returned.isCheckedOut())
+                        System.out.println("That is not a valid book to return");
+                    else {
                         returned.setCheckedOut(false);
                         System.out.println("Thank you for returning the book");
                     }
