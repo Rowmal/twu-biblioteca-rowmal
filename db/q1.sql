@@ -1,4 +1,5 @@
 --Who checked out the book 'The Hobbit’?
+--Anand Beck
 SELECT name
 FROM member
 WHERE id

@@ -1,4 +1,8 @@
 --What books and movies aren't checked out?
+--Thin Red Line
+--Crouching Tiger, Hidden Dragon
+--Lawrence of Arabia
+--Office Space
 SELECT title
 FROM book
 WHERE id

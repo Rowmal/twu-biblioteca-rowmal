@@ -1,4 +1,6 @@
 --Who has checked out more than 1 item?
+--Anand Beck
+--Frank Smith
 SELECT name
 FROM member
 WHERE id
