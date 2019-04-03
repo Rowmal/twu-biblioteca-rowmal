@@ -1,3 +1,4 @@
+--Who checked out the book 'The Hobbit’?
 SELECT member.name
 FROM member
 WHERE member.id

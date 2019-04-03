@@ -1,3 +1,4 @@
+--How many people have not checked out anything?
 SELECT member.name
 FROM member
 WHERE member.id
