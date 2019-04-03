@@ -1,8 +1,8 @@
 --How many people have not checked out anything?
-SELECT member.name
+SELECT name
 FROM member
-WHERE member.id
+WHERE id
 NOT IN (
-    SELECT checkout_item.member_id
+    SELECT member_id
     FROM checkout_item
 );

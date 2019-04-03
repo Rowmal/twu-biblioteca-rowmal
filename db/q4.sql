@@ -8,9 +8,9 @@ VALUES (43, 'Rowan Malamoo');
 INSERT INTO checkout_item (member_id, book_id)
 VALUES (43, 11);
 
-SELECT member.name
+SELECT name
 FROM member
-WHERE member.id
+WHERE id
 IN (
     SELECT checkout_item.member_id
     FROM checkout_item, book

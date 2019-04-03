@@ -1,18 +1,18 @@
 --What books and movies aren't checked out?
-SELECT book.title
+SELECT title
 FROM book
-WHERE book.id
+WHERE id
 NOT IN (
-    SELECT checkout_item.book_id
+    SELECT book_id
     FROM checkout_item
-    WHERE checkout_item.book_id IS NOT null
+    WHERE book_id IS NOT null
 );
 
-SELECT movie.title
+SELECT title
 FROM movie
-WHERE movie.id
+WHERE id
 NOT IN (
-    SELECT checkout_item.movie_id
+    SELECT movie_id
     FROM checkout_item
-    WHERE checkout_item.movie_id IS NOT null
+    WHERE movie_id IS NOT null
 );
