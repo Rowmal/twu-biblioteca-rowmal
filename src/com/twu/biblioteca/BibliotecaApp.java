@@ -26,7 +26,7 @@ public class BibliotecaApp {
         System.out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
 
         String[] menuOptions = {"[1] List of books", "[2] Quit", "[3] Checkout book", "[4] Return a book",
-                "[5] List of movies"};
+                "[5] List of movies", "[6] Checkout movie"};
         for (String menuOption : menuOptions) System.out.println(menuOption);
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -44,12 +44,12 @@ public class BibliotecaApp {
                 case "2":
                     break menuOptionLoop;
                 case "3":
-                    String checkoutTitle = br.readLine();
-                    Book checkout = findBook(checkoutTitle);
-                    if (checkout == null || checkout.isCheckedOut())
+                    String title = br.readLine();
+                    Book book = findBook(title);
+                    if (book == null || book.isCheckedOut())
                         System.out.println("Sorry, that book is not available");
                     else {
-                        checkout.setCheckedOut(true);
+                        book.setCheckedOut(true);
                         System.out.println("Thank you! Enjoy the book");
                     }
                     break;
@@ -65,8 +65,19 @@ public class BibliotecaApp {
                     break;
                 case "5":
                     for (Movie movie : movies)
-                        System.out.printf("%-30s|%-30s|%-30s|%-30s%n", movie.getName(), movie.getDirector(),
-                                movie.getYear(), movie.getRating());
+                        if (!movie.isCheckedOut())
+                            System.out.printf("%-30s|%-30s|%-30s|%-30s%n", movie.getName(), movie.getDirector(),
+                                    movie.getYear(), movie.getRating());
+                    break;
+                case "6":
+                    String checkoutName = br.readLine();
+                    Movie movie = findMovie(checkoutName);
+                    if (movie == null || movie.isCheckedOut())
+                        System.out.println("Sorry, that movie is not available");
+                    else {
+                        movie.setCheckedOut(true);
+                        System.out.println("Thank you! Enjoy the movie");
+                    }
                     break;
                 default:
                     System.out.println("Please select a valid option!");
@@ -82,6 +93,13 @@ public class BibliotecaApp {
         for (Book book : books)
             if (book.getTitle().equals(title))
                 return book;
+        return null;
+    }
+
+    private static Movie findMovie(String name) {
+        for (Movie movie : movies)
+            if (movie.getName().equals(name))
+                return movie;
         return null;
     }
 }

@@ -48,7 +48,8 @@ public class BibliotecaTest {
 
     @Test
     public void mainMenuShouldDisplayWhenBibliotecaStarts() throws IOException {
-        String[] expectedMenuOptions = {"[1] List of books", "[2] Quit", "[3] Checkout book", "[4] Return a book"};
+        String[] expectedMenuOptions = {"[1] List of books", "[2] Quit", "[3] Checkout book", "[4] Return a book",
+                "[5] List of movies", "[6] Checkout movie"};
         String input = "\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
@@ -209,5 +210,52 @@ public class BibliotecaTest {
             assertThat(outputStr, containsString(expectedDirectors[i]));
             assertThat(outputStr, containsString(expectedRatings[i]));
         }
+    }
+
+    @Test
+    public void successCheckOutMessageShouldDisplayWhenMovieCheckedOut() throws IOException {
+        String checkout = "Ghostbusters";
+        String expectedMessage = "Thank you! Enjoy the movie";
+        String input = "6\n" + checkout + "\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        assertThat(output.toString(), containsString(expectedMessage));
+    }
+
+    @Test
+    public void failCheckOutMessageShouldDisplayWhenMovieNotInBiblioteca() throws IOException {
+        String checkout = "The Shining";
+        String expectedMessage = "Sorry, that movie is not available";
+        String input = "6\n" + checkout + "\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        assertThat(output.toString(), containsString(expectedMessage));
+    }
+
+    @Test
+    public void failCheckoutMessageShouldDisplayWhenMovieAlreadyCheckedOut() throws IOException {
+        String checkout = "Ghostbusters";
+        String expectedMessage = "Sorry, that movie is not available";
+        String input = "6\n" + checkout + "\n" + "6\n" + checkout + "\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        assertThat(output.toString(), containsString(expectedMessage));
+    }
+
+    @Test
+    public void checkedOutMoviesShouldNotBeListed() throws IOException {
+        String checkout = "Ghostbusters";
+        String input = "6\n" + checkout + "\n" + "5\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        assertThat(output.toString(), not(containsString(checkout)));
     }
 }

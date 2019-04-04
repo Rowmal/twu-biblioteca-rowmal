@@ -6,6 +6,7 @@ class Movie {
     private final String year;
     private final String director;
     private final String rating;
+    private boolean checkedOut = false;
 
     Movie(String name, String year, String director, String rating) {
         this.name = name;
@@ -28,5 +29,13 @@ class Movie {
 
     String getRating() {
         return rating;
+    }
+
+    void setCheckedOut(boolean checkedOut) {
+        this.checkedOut = checkedOut;
+    }
+
+    boolean isCheckedOut() {
+        return checkedOut;
     }
 }

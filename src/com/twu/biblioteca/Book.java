@@ -2,23 +2,15 @@ package com.twu.biblioteca;
 
 class Book {
 
-    private boolean checkedOut = false;
     private final String title;
     private final String author;
     private final String pubYear;
+    private boolean checkedOut = false;
 
     Book(String title, String author, String pubYear) {
         this.title = title;
         this.author = author;
         this.pubYear = pubYear;
-    }
-
-    boolean isCheckedOut() {
-        return checkedOut;
-    }
-
-    void setCheckedOut(boolean checkedOut) {
-        this.checkedOut = checkedOut;
     }
 
     String getPubYear() {
@@ -31,5 +23,13 @@ class Book {
 
     String getTitle() {
         return title;
+    }
+
+    void setCheckedOut(boolean checkedOut) {
+        this.checkedOut = checkedOut;
+    }
+
+    boolean isCheckedOut() {
+        return checkedOut;
     }
 }
