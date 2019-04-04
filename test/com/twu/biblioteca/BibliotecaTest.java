@@ -38,7 +38,7 @@ public class BibliotecaTest {
     @Test
     public void welcomeMessageShouldDisplayWhenBibliotecaStarts() throws IOException {
         String expectedWelcome = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!\n";
-        String input = "1\n";
+        String input = "\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
@@ -47,9 +47,9 @@ public class BibliotecaTest {
     }
 
     @Test
-    public void mainMenuShouldDisplayWhenOptionSelected() throws IOException {
+    public void mainMenuShouldDisplayWhenBibliotecaStarts() throws IOException {
         String[] expectedMenuOptions = {"[1] List of books", "[2] Quit", "[3] Checkout book", "[4] Return a book"};
-        String input = "1\n";
+        String input = "\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
@@ -60,7 +60,7 @@ public class BibliotecaTest {
 
     @Test
     public void booksShouldBeListedWhenOptionSelected() throws IOException {
-        String[] expectedBookTitles = {"A Game of Thrones", "Nineteen Eighty-Four", "The Metamorphosis",
+        String[] expectedTitles = {"A Game of Thrones", "Nineteen Eighty-Four", "The Metamorphosis",
                 "Wuthering Heights"};
         String[] expectedPubYears = {"1996", "1949", "1915", "1847"};
         String[] expectedAuthors = {"George R. R. Martin", "George Orwell", "Franz Kafka", "Emily Brontë"};
@@ -71,7 +71,7 @@ public class BibliotecaTest {
 
         String outputStr = output.toString();
         for (int i = 0; i < 4; i++) {
-            assertThat(outputStr, containsString(expectedBookTitles[i]));
+            assertThat(outputStr, containsString(expectedTitles[i]));
             assertThat(outputStr, containsString(expectedAuthors[i]));
             assertThat(outputStr, containsString(expectedPubYears[i]));
         }
@@ -189,5 +189,25 @@ public class BibliotecaTest {
         BibliotecaApp.main(null);
 
         assertThat(output.toString(), containsString(checkout));
+    }
+
+    @Test
+    public void moviesShouldBeListedWhenOptionSelected() throws IOException {
+        String[] expectedNames = {"Ghostbusters", "Event Horizon", "The Witch", "Under the Skin"};
+        String[] expectedYears = {"1984", "1997", "2015", "2013"};
+        String[] expectedDirectors = {"Ivan Reitman", "Paul W. S. Anderson", "Robert Eggers", "Jonathan Glazer"};
+        String[] expectedRatings = {"9", "3", "8", "7"};
+        String input = "5\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        String outputStr = output.toString();
+        for (int i = 0; i < 4; i++) {
+            assertThat(outputStr, containsString(expectedNames[i]));
+            assertThat(outputStr, containsString(expectedYears[i]));
+            assertThat(outputStr, containsString(expectedDirectors[i]));
+            assertThat(outputStr, containsString(expectedRatings[i]));
+        }
     }
 }
