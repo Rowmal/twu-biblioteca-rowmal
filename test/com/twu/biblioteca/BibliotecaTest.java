@@ -12,6 +12,8 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
 
 // TODO: Utilise System Rules' System.out and System.in rules
+// TODO: Make output string testing more fine-grained
+// TODO: Organise string input sequences
 public class BibliotecaTest {
 
     private InputStream systemIn;
@@ -37,13 +39,13 @@ public class BibliotecaTest {
 
     @Test
     public void welcomeMessageShouldDisplayWhenBibliotecaStarts() throws IOException {
-        String expectedWelcome = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!\n";
+        String expectedMessage = "Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!\n";
         String input = "\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
 
-        assertThat(output.toString(), startsWith(expectedWelcome));
+        assertThat(output.toString(), startsWith(expectedMessage));
     }
 
     @Test
@@ -99,10 +101,22 @@ public class BibliotecaTest {
     }
 
     @Test
+    public void userLoginPromptShouldDisplayWhenUserNotLoggedIn() throws IOException {
+        String checkout = "A Game of Thrones";
+        String expectedMessage = "Please enter your library number and password";
+        String input = "3\n" + checkout + "\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+
+        BibliotecaApp.main(null);
+
+        assertThat(output.toString(), containsString(expectedMessage));
+    }
+
+    @Test
     public void successCheckOutMessageShouldDisplayWhenBookCheckedOut() throws IOException {
         String checkout = "A Game of Thrones";
         String expectedMessage = "Thank you! Enjoy the book";
-        String input = "3\n" + checkout + "\n";
+        String input = "3\n" + checkout + "\n" + "123-4567\n" + "password\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
@@ -114,7 +128,7 @@ public class BibliotecaTest {
     public void failCheckOutMessageShouldDisplayWhenBookNotInBiblioteca() throws IOException {
         String checkout = "The Wind in the Willows";
         String expectedMessage = "Sorry, that book is not available";
-        String input = "3\n" + checkout + "\n";
+        String input = "3\n" + checkout + "\n" + "123-4567\n" + "password\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
@@ -126,7 +140,7 @@ public class BibliotecaTest {
     public void failCheckoutMessageShouldDisplayWhenBookAlreadyCheckedOut() throws IOException {
         String checkout = "A Game of Thrones";
         String expectedMessage = "Sorry, that book is not available";
-        String input = "3\n" + checkout + "\n" + "3\n" + checkout + "\n";
+        String input = "3\n" + checkout + "\n" + "123-4567\n" + "password\n" + "3\n" + checkout + "\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
@@ -137,7 +151,7 @@ public class BibliotecaTest {
     @Test
     public void checkedOutBooksShouldNotBeListed() throws IOException {
         String checkout = "A Game of Thrones";
-        String input = "3\n" + checkout + "\n" + "1\n";
+        String input = "3\n" + checkout + "\n" + "123-4567\n" + "password\n" + "1\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
@@ -148,8 +162,8 @@ public class BibliotecaTest {
     @Test
     public void successReturnMessageShouldDisplayWhenBookReturned() throws IOException {
         String checkout = "A Game of Thrones";
-        String input = "3\n" + checkout + "\n" + "4\n" + checkout + "\n";
         String expectedMessage = "Thank you for returning the book";
+        String input = "3\n" + checkout + "\n" + "123-4567\n" + "password\n" + "4\n" + checkout + "\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
@@ -161,7 +175,7 @@ public class BibliotecaTest {
     public void failReturnMessageShouldDisplayWhenBookNotInBiblioteca() throws IOException {
         String checkout = "The Wind in the Willows";
         String expectedMessage = "That is not a valid book to return";
-        String input = "4\n" + checkout + "\n";
+        String input = "4\n" + checkout + "\n" + "123-4567\n" + "password\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
@@ -173,7 +187,7 @@ public class BibliotecaTest {
     public void failReturnMessageShouldDisplayWhenBookAlreadyReturned() throws IOException {
         String checkout = "A Game of Thrones";
         String expectedMessage = "That is not a valid book to return";
-        String input = "4\n" + checkout + "\n";
+        String input = "4\n" + checkout + "\n" + "123-4567\n" + "password\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
@@ -184,7 +198,7 @@ public class BibliotecaTest {
     @Test
     public void returnedBooksShouldBeListed() throws IOException {
         String checkout = "A Game of Thrones";
-        String input = "3\n" + checkout + "\n" + "4\n" + checkout + "\n" + "1\n";
+        String input = "3\n" + checkout + "\n" + "123-4567\n" + "password\n" + "4\n" + checkout + "\n" + "1\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
 
         BibliotecaApp.main(null);
