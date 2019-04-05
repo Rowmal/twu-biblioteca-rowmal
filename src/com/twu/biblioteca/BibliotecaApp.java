@@ -11,6 +11,9 @@ public class BibliotecaApp {
     private static final Book[] books = new Book[4];
     private static final Movie[] movies = new Movie[4];
     private static final User[] users = new User[1];
+    private static final String[] menuOptions = {"[1] List of books", "[2] Quit", "[3] Checkout book",
+            "[4] Return a book", "[5] List of movies", "[6] Checkout movie", "[7] Show main menu",
+            "[8] User information"};
 
     public static void main(String[] args) throws IOException {
         String[] titles = {"A Game of Thrones", "Nineteen Eighty-Four", "The Metamorphosis", "Wuthering Heights"};
@@ -25,17 +28,17 @@ public class BibliotecaApp {
             books[i] = new Book(titles[i], authors[i], pubYears[i]);
             movies[i] = new Movie(names[i], years[i], directors[i], ratings[i]);
         }
-        users[0] = new User("123-4567", "password");
+        users[0] = new User("123-4567", "password", "rowmal", "rowmal@protonmail.com",
+                "0400000000");
 
         System.out.println("Welcome to Biblioteca. Your one-stop-shop for great book titles in Bangalore!");
 
-        String[] menuOptions = {"[1] List of books", "[2] Quit", "[3] Checkout book", "[4] Return a book",
-                "[5] List of movies", "[6] Checkout movie"};
-        for (String menuOption : menuOptions) System.out.println(menuOption);
+        printMenu(false);
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String menuOption;
         boolean loggedIn = false;
+        User loggedInUser = null;
 
         menuOptionLoop:
         while ((menuOption = br.readLine()) != null) {
@@ -55,6 +58,7 @@ public class BibliotecaApp {
                         User user = findUser(libNum);
                         if (user == null || !user.getPassword().equals(password)) break;
                         loggedIn = true;
+                        loggedInUser = user;
                     }
                     if (menuOption.equals("3")) checkoutBook(title);
                     else returnBook(title);
@@ -66,6 +70,14 @@ public class BibliotecaApp {
                     String name = br.readLine();
                     checkoutMovie(name);
                     break;
+                case "7":
+                    printMenu(loggedIn);
+                    break;
+                case "8":
+                    if (loggedIn) {
+                        printUserInfo(loggedInUser);
+                        break;
+                    }
                 default:
                     System.out.println("Please select a valid option!");
                     break;
@@ -87,6 +99,17 @@ public class BibliotecaApp {
             if (!movie.isCheckedOut())
                 System.out.printf("%-30s|%-30s|%-30s|%-30s%n", movie.getName(), movie.getDirector(), movie.getYear(),
                         movie.getRating());
+    }
+
+    private static void printMenu(boolean loggedIn) {
+        for (String menuOption : menuOptions) {
+            if (menuOption.equals("[8] User information") && !loggedIn) continue;
+            System.out.println(menuOption);
+        }
+    }
+
+    private static void printUserInfo(User user) {
+        System.out.printf("%-30s|%-30s|%-30s%n", user.getName(), user.getEmail(), user.getPhoneNum());
     }
 
     private static Book findBook(String title) {
