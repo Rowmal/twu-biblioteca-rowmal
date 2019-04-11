@@ -1,12 +1,11 @@
 package com.twu.biblioteca;
 
-class Movie {
+class Movie extends Resource {
 
     private final String name;
     private final String year;
     private final String director;
     private final String rating;
-    private boolean checkedOut = false;
 
     Movie(String name, String year, String director, String rating) {
         this.name = name;
@@ -31,11 +30,8 @@ class Movie {
         return rating;
     }
 
-    void setCheckedOut(boolean checkedOut) {
-        this.checkedOut = checkedOut;
-    }
-
-    boolean isCheckedOut() {
-        return checkedOut;
+    @Override
+    public String getIdentifier() {
+        return name;
     }
 }

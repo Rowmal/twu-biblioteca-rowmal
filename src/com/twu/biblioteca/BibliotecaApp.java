@@ -114,13 +114,13 @@ public class BibliotecaApp {
 
     private static Book findBook(String title) {
         for (Book book : books)
-            if (book.getTitle().equals(title)) return book;
+            if (book.getIdentifier().equals(title)) return book;
         return null;
     }
 
     private static Movie findMovie(String name) {
         for (Movie movie : movies)
-            if (movie.getName().equals(name)) return movie;
+            if (movie.getIdentifier().equals(name)) return movie;
         return null;
     }
 
@@ -134,7 +134,7 @@ public class BibliotecaApp {
         Book book = findBook(title);
         if (book == null || book.isCheckedOut()) System.out.println("Sorry, that book is not available");
         else {
-            book.setCheckedOut(true);
+            book.checkoutResource();
             System.out.println("Thank you! Enjoy the book");
         }
     }
@@ -143,7 +143,7 @@ public class BibliotecaApp {
         Book returned = findBook(title);
         if (returned == null || !returned.isCheckedOut()) System.out.println("That is not a valid book to return");
         else {
-            returned.setCheckedOut(false);
+            returned.returnResource();
             System.out.println("Thank you for returning the book");
         }
     }
@@ -152,7 +152,7 @@ public class BibliotecaApp {
         Movie movie = findMovie(name);
         if (movie == null || movie.isCheckedOut()) System.out.println("Sorry, that movie is not available");
         else {
-            movie.setCheckedOut(true);
+            movie.checkoutResource();
             System.out.println("Thank you! Enjoy the movie");
         }
     }

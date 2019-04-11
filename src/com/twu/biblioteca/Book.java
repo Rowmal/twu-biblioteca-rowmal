@@ -1,11 +1,10 @@
 package com.twu.biblioteca;
 
-class Book {
+class Book extends Resource {
 
     private final String title;
     private final String author;
     private final String pubYear;
-    private boolean checkedOut = false;
 
     Book(String title, String author, String pubYear) {
         this.title = title;
@@ -25,11 +24,8 @@ class Book {
         return title;
     }
 
-    void setCheckedOut(boolean checkedOut) {
-        this.checkedOut = checkedOut;
-    }
-
-    boolean isCheckedOut() {
-        return checkedOut;
+    @Override
+    public String getIdentifier() {
+        return title;
     }
 }
